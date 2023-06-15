@@ -16,21 +16,13 @@ export default function Game() {
         setCurrentMove(nextMove);
     }
 
-    const moves = history.map((squares, move) => {
-        return(
-            <li key={move}>
-                <button onClick={() => jumpTo(move)}>move {move}</button>
-            </li>
-        )
-    })
-
     return (
         <div className="game">
             <div className="game-board">
                 <Board xIsNext={xIsNext} squares={history[currentMove]} onPlay={handlePlay}/>
             </div>
             <div className="game-info">
-                <ol>{moves}</ol>
+                <Moves history={history} jumpTo={jumpTo}/>
             </div>
         </div>
     )
@@ -84,6 +76,15 @@ function Board({xIsNext, squares, onPlay}) {
 function Square({value, onSquareClick}) {
     return <button className="square" onClick={onSquareClick}>{value}</button>
 }
+
+const Moves = ({ history, jumpTo }) => {
+    const moves = history.map((squares, move) => (
+        <li key={move}>
+            <button onClick={() => jumpTo(move)}>move {move}</button>
+        </li>
+    ));
+    return <ul>{moves}</ul>;
+};
 
 
 function calculateWinner(squares) {
